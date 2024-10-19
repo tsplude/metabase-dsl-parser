@@ -1,6 +1,6 @@
 Requirements and usage examples are at the bottom of this
 
-My basic insight for the submission here is that the problem statement is effectively defining a grammar and asking for DSL parser. The only way I've learned how to do this was back in my undergraduate compilers course and so I applied simple versions of the same foundational ideas. We outline our grammer (below), tokenize the input, iterate over the token stream to create a token abstract syntax tree with respect to our grammatical rules, then postorder traverse the AST to return the desired SQL string representation in a bottom up fashion.
+My basic insight for the submission here is that the problem statement is effectively defining a grammar and asking for DSL parser. The only way I've learned how to do this was back in my undergraduate compilers course and so I applied simple versions of the same foundational ideas. We outline our grammer (below), tokenize the input, use a recursive descent parser to create a token abstract syntax tree with respect to our grammatical rules, then postorder traverse the AST to return the desired SQL string representation in a bottom up fashion.
 
 I realized at the end that I forgot to plan for literal extensibility so that's currently unsupported. I also ran out of time to really attempt the query optimization bonus.
 
@@ -26,7 +26,7 @@ FIELD   := UNSIGNED_INT
 Start
 └── Preprocess the submitted {<where-clause>, <limit>} into <where> and <limit> parts
     └── Tokenize the raw where-clause str into a list of tuples e.g. (<TOKEN_ID>, <VAL>)
-        └── Use our tokens list to construct an abstract syntax tree, or token AST
+        └── Rescursive descent on our tokens list to construct an abstract syntax tree, or token AST
             └── Do a postorder traversal on the token AST to combine individual node string representations bottom up
 ```
 Which basically translates to:
